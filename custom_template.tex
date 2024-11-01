@@ -1,0 +1,115 @@
+\documentclass{report}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    pdfborder={0 0 0},
+}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage[normalem]{ulem} % For underlining
+\usepackage{caption}        % For customizing captions
+\usepackage{float}          % For precise image placement
+\usepackage{capt-of}        % For captions without floats
+
+% Page margins
+\geometry{
+    a4paper,
+    left=25mm,
+    right=25mm,
+    top=25mm,
+    bottom=25mm,
+}
+
+% Header and Footer
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textit{$title$}}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Define \tightlist for Pandoc lists
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Set maximum image width to fit within page margins (decrease images by 20%)
+\setkeys{Gin}{width=\maxwidth}
+\makeatletter
+\newcommand{\maxwidth}{%
+  \ifdim\Gin@nat@width>\dimexpr0.8\textwidth\relax
+    0.7\textwidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+% Ensure captions are above images and remove numbering
+\captionsetup[figure]{
+    position=above,
+    labelformat=empty, % Remove "Figure X:"
+    labelsep=none,     % Remove colon after label
+    textfont=bf,       % Optional: make caption text bold
+}
+
+% Redefine figure environment to use [H] placement
+\let\oldfigure\figure
+\let\endoldfigure\endfigure
+\renewenvironment{figure}[1][H]{
+  \oldfigure[#1]
+}{
+  \endoldfigure
+}
+
+% Redefine section titles to be underlined, unnumbered, and start on new pages
+\titleformat{\section}
+  {\normalfont\Large\bfseries} % Format: Large, bold text
+  {}                           % No section number
+  {0pt}                        % No spacing between number and title
+  {\uline}                     % Underline the section title
+
+% Start each section on a new page
+\let\oldsection\section
+\renewcommand{\section}{%
+  \clearpage% Start a new page
+  \oldsection}
+
+% Remove section numbering
+\setcounter{secnumdepth}{0}
+
+% Increase TOC depth by 1
+\setcounter{tocdepth}{3}
+
+% Title Page Formatting
+\makeatletter
+\def\printtitle{{
+    \begin{center}
+        \vspace*{2cm}
+        {\huge \textbf{$title$}}\\[1cm]
+        {\Large \textbf{Author:} $author$}\\[0.5cm]
+        {\Large \textbf{Date:} $date$}\\[2cm]
+        $if(logo)$
+            \includegraphics[width=0.4\textwidth]{$logo$}\\[2cm]
+        $endif$
+    \end{center}
+}}
+\makeatother
+
+% Begin Document
+\begin{document}
+
+% Title Page
+\thispagestyle{empty}
+\printtitle
+\newpage
+\setcounter{page}{1}
+
+% Table of Contents
+\tableofcontents
+\newpage
+
+$body$
+
+\end{document}
+
